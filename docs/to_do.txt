@@ -1,0 +1,25 @@
+to do:
+- create enviroment
+    - create makefile
+    - link libft
+    - .gitignore
+    - link minilix
+    - do readme file 
+- input parsing
+    - create game struct
+        - user position: (posX, posY), (dirX, dirY), (planeX, planeY)
+    - upload map
+- input validation
+    - The map must be composed of only 6 possible characters: 0 for an empty space,
+        1 for a wall, and N,S,E or W for the player’s start position and spawning
+    - The map must be closed/surrounded by walls, if not the program must return
+        an error => flood fill alghoritm 
+    - 
+
+
+
+    - If any misconfiguration of any kind is encountered in the file, the program
+        must exit properly and return "Error\n" followed by an explicit error message
+        of your choice
+- creating map structure
+
