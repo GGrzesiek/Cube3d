@@ -35,7 +35,7 @@ typedef struct s_map {
 
 
 typedef struct s_scene {          /* <-- Person A fills this, Person B consumes it */
-	char      	*tex_path[6];       /* indexed by TEX_NO..TEX_EA */
+	char      	*tex_path[4];      /* indexed by TEX_NO..TEX_EA */
 	int			floor;              /* 0xRRGGBB, -1 = unset */
 	int			ceiling;
 	t_map		map;
@@ -47,5 +47,15 @@ typedef struct s_scene {          /* <-- Person A fills this, Person B consumes 
 
 int	parse_scene(char *map_file, t_scene *scene);
 int error_msg(char *msg);
+
+/*
+	parsing_utils.c
+*/
+int is_line_empty(char *line);
+int validate_file(char *map_file);
+int	is_tex_id_used(int tex_ID,  t_scene *scene);
+int handle_unknown_line(char *line, char **first_map_line, int counter);
+int identify_element(char *line);
+int dispatch_element(char *line, int tex_id, t_scene *scene);
 
 #endif

@@ -1,104 +1,113 @@
 #include "cube.h"
 
-int validate_file(char *file_str)
+int	parse_color(char *line, int tex_id, t_scene *scene)
 {
-	int file_ptr;
-
-	file_ptr = open(file_str, O_RDONLY);
-	if (file_ptr < 0)
-	{
-		printf("Error\nCould not open file: %s\n", file_str);
-		return (1);
-	}
-	close(file_ptr);
-	return (0);	
+	scene->ceiling = 0;
+	scene->floor = 0;
+	return (0);
 }
 
-int identify_texture(char *line)
+/*
+	to do
+	- check for duplicate
+	- duplicate path do structure
+	- check if path is correct
+*/
+int	parse_tex(char *line, int tex_id, t_scene *scene)
 {
-    if (line[0] == 'N' && line[1] == 'O')
-        return (TEX_NO);
-    if (line[0] == 'S' && line[1] == 'O')
-        return (TEX_SO);
-    if (line[0] == 'W' && line[1] == 'E')
-        return (TEX_WE);
-    if (line[0] == 'E' && line[1] == 'A')
-        return (TEX_EA);
-	if (line[0] == 'F' && line[1] == ' ')
-		return (TEX_F);
-	if (line[0] == 'C' && line[1] == ' ')
-		return (TEX_C);
-    return (-1);
+	int		fd;
+	int		i;
+
+	if (is_tex_id_used(tex_id, scene))
+		return (error_msg("Duplicate texture identifier"));
+	scene->tex_path[tex_id] = ft_strtrim(line + 2, " \t\n");
+	if (!scene->tex_path[tex_id])
+		return (error_msg("Malloc error :("));
+	fd = open(scene->tex_path[tex_id], O_RDONLY);
+	if (fd < 0)
+		return (error_msg("Cannot open texture file"));
+	close(fd);
+	return (0);
+}
+
+int dispatch_element(char *line, int tex_id, t_scene *scene)
+{
+    if (tex_id == TEX_F || tex_id == TEX_C)
+        return (parse_color(line, tex_id, scene));
+    return (parse_tex(line, tex_id, scene));
 }
 
 /*
 	to do: check for duplicates, check for valid paths, check for valid colors
+
+	fill array with nulls, if its not thempty then its duplicate
 */
-int parse_scene_info(int file_ptr, t_scene *scene)
+int parse_scene_info(int fd, t_scene *scene, char **first_map_line)
 {
 	char	*line;
-	char	*trimmed_line;
-	int		tex_index;
+	int		tex_id;
 	int		counter;
 
 	counter = 0;
-	line = get_next_line(file_ptr);
+	line = get_next_line(fd);
 	while (line)
 	{
-		trimmed_line = ft_strtrim(line, " \t\n");
-		if (trimmed_line[0] == '\0')
+		tex_id = identify_element(line);
+		if (is_line_empty(line))
 			;
-		else if ((tex_index = identify_texture(trimmed_line)) != -1)
-		{
-			scene->tex_path[tex_index] = ft_strdup(trimmed_line + 2);
+		else if (tex_id == -1)
+			return (handle_unknown_line(line, first_map_line, counter));
+		else if (dispatch_element(line, tex_id, scene))
+			return (free(line), 1);
+		else
 			counter++;
-		}
-		if (counter == 6)
-		{
-			free(trimmed_line);
-			free(line);
-			break ;
-		}
-		free(trimmed_line);
 		free(line);
-		line = get_next_line(file_ptr);
+		line = get_next_line(fd);
 	}
-	return (0);
+	if (counter < 6)
+		return (error_msg("Lack of some scene information"));
+	return (error_msg("Missing map"));
 }
-
-// int parse_map(int file_ptr, t_scene *scene)
-// {
-
-// }
 
 int	read_map_file(char *map_file, t_scene *scene)
 {
-	int	file_ptr;
-	
-	printf("Reading map file: %s\n", map_file);
+	int		fd;
+	char	*first_map_line;
+
 	if (validate_file(map_file))
 		return (1);
-	file_ptr = open(map_file, O_RDONLY);
-
-	if (parse_scene_info(file_ptr, scene))
-		return (1);
-	// if (parse_map(file_ptr, scene))
-	// 	return (1);
-
-	char *line = get_next_line(file_ptr);
-	printf("First line of map: \n%s\n", line);
-	close(file_ptr);
+	fd = open(map_file, O_RDONLY);
+	if (fd < 0)
+		return (error_msg("Cannot open a file"));
+	first_map_line = NULL;
+	if (parse_scene_info(fd, scene, &first_map_line))
+    {
+        free(first_map_line);
+        close(fd);
+        return (1);
+    }
+	// if (parse_map(fd, scene, first_map_line))
+    // {
+    //     close(fd);
+    //     return (1);
+    // }
+	close(fd);
 	return (0);
 }
 
 int parse_scene(char *map_file, t_scene *scene)
 {
-
+	int i = 0;
+	scene->floor = -1;
+	scene->ceiling = -1;
+	while (i < 4)
+		scene->tex_path[i++] = NULL;
+	
 	if (read_map_file(map_file, scene))
 		return (1);
-	printf("Texture paths:\nNO: %s\nSO: %s\nWE: %s\nEA: %s\nF: %s\nC: %s\n", 
+	printf("Texture paths:\nNO: %s\nSO: %s\nWE: %s\nEA: %s\nF: %d\nC: %d\n", 
 		scene->tex_path[TEX_NO], scene->tex_path[TEX_SO], scene->tex_path[TEX_WE],
-		scene->tex_path[TEX_EA], scene->tex_path[TEX_F], scene->tex_path[TEX_C]);
+		scene->tex_path[TEX_EA], scene->floor, scene->ceiling);
 
 	return (0);
 }
