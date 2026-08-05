@@ -7,7 +7,9 @@ SRC_PATH = ./src/
 OBJ_PATH = ./obj/
 INC_PATH = ./include/
 
-SRC = main.c 
+SRC = main.c \
+		parsing/parse_scene.c \
+		parsing/parsing_utils.c
 
 SRCS   = $(addprefix $(SRC_PATH), $(SRC))
 OBJ    = $(SRC:.c=.o)

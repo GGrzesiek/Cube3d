@@ -14,7 +14,7 @@ to do:
         1 for a wall, and N,S,E or W for the player’s start position and spawning
     - The map must be closed/surrounded by walls, if not the program must return
         an error => flood fill alghoritm 
-    - 
+    - is .cub file?
 
 
 
@@ -22,4 +22,10 @@ to do:
         must exit properly and return "Error\n" followed by an explicit error message
         of your choice
 - creating map structure
+
+
+
+space - out od map
+1 - wall 
+0 - free space on the map
 
