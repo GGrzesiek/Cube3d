@@ -110,6 +110,11 @@ void	free_scene(t_scene *scene);
 int		error_msg(char *msg);
 
 /*
+	stub_scene.c - temporary, delete once parse_map fills the grid
+*/
+int		stub_fill_scene(t_scene *scene);
+
+/*
 	parsing_utils.c
 */
 int		is_line_empty(char *line);
