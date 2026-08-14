@@ -115,6 +115,7 @@ int		parse_scene(char *map_file, t_scene *scene);
 int		run_game(t_scene *scene);
 void	free_scene(t_scene *scene);
 int		error_msg(char *msg);
+void	cleanup_game(t_game *g);
 
 /*
 	hooks.c
