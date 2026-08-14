@@ -11,6 +11,8 @@ SRC = main.c \
 		parsing/parse_scene.c \
 		parsing/parsing_utils.c \
 		utils/error.c \
+		engine/run_game.c \
+		render/render.c \
 		render/stub_scene.c
 
 SRCS   = $(addprefix $(SRC_PATH), $(SRC))

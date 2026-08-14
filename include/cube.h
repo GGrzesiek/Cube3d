@@ -2,6 +2,7 @@
 # define CUBE_H
 
 # include "../libft/libft.h"
+# include "../mlx_linux/mlx.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
@@ -108,6 +109,13 @@ int		parse_scene(char *map_file, t_scene *scene);
 int		run_game(t_scene *scene);
 void	free_scene(t_scene *scene);
 int		error_msg(char *msg);
+
+/*
+	render.c
+*/
+int		game_loop(t_game *g);
+void	render_frame(t_game *g);
+void	put_pixel(t_img *img, int x, int y, int color);
 
 /*
 	stub_scene.c - temporary, delete once parse_map fills the grid

@@ -11,6 +11,5 @@ int	main(int argc, char **argv)
 		return (1);
 	if (stub_fill_scene(&scene))
 		return (free_scene(&scene), 1);
-	free_scene(&scene);
-	return (0);
+	return (run_game(&scene));
 }
