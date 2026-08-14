@@ -12,6 +12,7 @@ SRC = main.c \
 		parsing/parsing_utils.c \
 		utils/error.c \
 		engine/run_game.c \
+		engine/hooks.c \
 		render/render.c \
 		render/stub_scene.c
 

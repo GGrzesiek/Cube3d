@@ -33,6 +33,7 @@ int	run_game(t_scene *scene)
 	game.scene = scene;
 	if (setup_mlx(&game))
 		return (error_msg("MiniLibX setup failed"));
+	register_hooks(&game);
 	mlx_loop_hook(game.mlx, game_loop, &game);
 	mlx_loop(game.mlx);
 	return (0);

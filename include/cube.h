@@ -34,6 +34,12 @@
 # define K_RIGHT 65363
 # define K_ESC 65307
 
+# define EV_KEYPRESS 2
+# define EV_KEYRELEASE 3
+# define EV_DESTROY 17
+# define MASK_KEYPRESS 1L
+# define MASK_KEYRELEASE 2L
+
 # define MOVE_SPEED 3.0
 # define ROT_SPEED 2.0
 
@@ -109,6 +115,14 @@ int		parse_scene(char *map_file, t_scene *scene);
 int		run_game(t_scene *scene);
 void	free_scene(t_scene *scene);
 int		error_msg(char *msg);
+
+/*
+	hooks.c
+*/
+void	register_hooks(t_game *g);
+int		on_key_down(int keycode, t_game *g);
+int		on_key_up(int keycode, t_game *g);
+int		on_close(t_game *g);
 
 /*
 	render.c
