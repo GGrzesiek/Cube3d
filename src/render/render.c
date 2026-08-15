@@ -34,6 +34,7 @@ void	render_frame(t_game *g)
 int	game_loop(t_game *g)
 {
 	g->frame_time = 1.0 / 60.0;
+	rotate_player(g);
 	move_player(g);
 	render_frame(g);
 	mlx_put_image_to_window(g->mlx, g->win, g->frame.ptr, 0, 0);

@@ -16,6 +16,7 @@ SRC = main.c \
 		engine/hooks.c \
 		engine/player.c \
 		engine/player_move.c \
+		engine/player_rotate.c \
 		render/render.c \
 		render/stub_scene.c
 

@@ -7,6 +7,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <math.h>
 
 # define WIN_W 1280
 # define WIN_H 720
@@ -128,6 +129,11 @@ void	init_player(t_game *g);
 	player_move.c
 */
 void	move_player(t_game *g);
+
+/*
+	player_rotate.c
+*/
+void	rotate_player(t_game *g);
 
 /*
 	hooks.c
