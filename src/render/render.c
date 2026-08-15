@@ -33,7 +33,7 @@ void	render_frame(t_game *g)
 
 int	game_loop(t_game *g)
 {
-	g->frame_time = 1.0 / 60.0;
+	update_frame_time(g);
 	rotate_player(g);
 	move_player(g);
 	render_frame(g);

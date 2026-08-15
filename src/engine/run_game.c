@@ -1,5 +1,20 @@
 #include "cube.h"
 
+void	update_frame_time(t_game *g)
+{
+	struct timeval	now;
+	long			us;
+
+	gettimeofday(&now, NULL);
+	us = now.tv_sec * 1000000L + now.tv_usec;
+	if (g->last_us == 0)
+		g->last_us = us;
+	g->frame_time = (double)(us - g->last_us) / 1000000.0;
+	g->last_us = us;
+	if (g->frame_time > 0.1)
+		g->frame_time = 0.1;
+}
+
 static int	setup_image(t_game *g)
 {
 	g->frame.ptr = mlx_new_image(g->mlx, WIN_W, WIN_H);

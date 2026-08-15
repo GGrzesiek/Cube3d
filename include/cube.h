@@ -8,6 +8,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <math.h>
+# include <sys/time.h>
 
 # define WIN_W 1280
 # define WIN_H 720
@@ -111,11 +112,13 @@ typedef struct s_game
 	double	plane_x;
 	double	plane_y;
 	double	frame_time;
+	long	last_us;
 	int		keys[KEY_COUNT];
 }	t_game;
 
 int		parse_scene(char *map_file, t_scene *scene);
 int		run_game(t_scene *scene);
+void	update_frame_time(t_game *g);
 void	free_scene(t_scene *scene);
 int		error_msg(char *msg);
 void	cleanup_game(t_game *g);
