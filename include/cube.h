@@ -125,6 +125,11 @@ void	cleanup_game(t_game *g);
 void	init_player(t_game *g);
 
 /*
+	player_move.c
+*/
+void	move_player(t_game *g);
+
+/*
 	hooks.c
 */
 void	register_hooks(t_game *g);
