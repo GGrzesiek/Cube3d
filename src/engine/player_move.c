@@ -1,9 +1,27 @@
 #include "cube.h"
 
+static int	is_wall(t_game *g, double x, double y)
+{
+	int		mx;
+	int		my;
+	char	c;
+
+	mx = (int)x;
+	my = (int)y;
+	if (mx < 0 || mx >= g->scene->map.width)
+		return (1);
+	if (my < 0 || my >= g->scene->map.height)
+		return (1);
+	c = g->scene->map.grid[my][mx];
+	return (c != '0' && c != 'N' && c != 'S' && c != 'E' && c != 'W');
+}
+
 static void	try_move(t_game *g, double dx, double dy)
 {
-	g->pos_x += dx;
-	g->pos_y += dy;
+	if (!is_wall(g, g->pos_x + dx, g->pos_y))
+		g->pos_x += dx;
+	if (!is_wall(g, g->pos_x, g->pos_y + dy))
+		g->pos_y += dy;
 }
 
 void	move_player(t_game *g)
