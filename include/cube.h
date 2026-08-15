@@ -43,6 +43,8 @@
 # define MOVE_SPEED 3.0
 # define ROT_SPEED 2.0
 
+# define FOV_PLANE 0.66
+
 typedef struct s_img
 {
 	void	*ptr;
@@ -116,6 +118,11 @@ int		run_game(t_scene *scene);
 void	free_scene(t_scene *scene);
 int		error_msg(char *msg);
 void	cleanup_game(t_game *g);
+
+/*
+	player.c
+*/
+void	init_player(t_game *g);
 
 /*
 	hooks.c

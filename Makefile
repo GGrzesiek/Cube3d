@@ -14,6 +14,7 @@ SRC = main.c \
 		utils/cleanup.c \
 		engine/run_game.c \
 		engine/hooks.c \
+		engine/player.c \
 		render/render.c \
 		render/stub_scene.c
 
