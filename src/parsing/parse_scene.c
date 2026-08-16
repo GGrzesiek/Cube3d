@@ -1,18 +1,6 @@
 #include "cube.h"
 
-int	parse_color(char *line, int tex_id, t_scene *scene)
-{
-	scene->ceiling = 0;
-	scene->floor = 0;
-	return (0);
-}
 
-/*
-	to do
-	- check for duplicate
-	- duplicate path do structure
-	- check if path is correct
-*/
 int	parse_tex(char *line, int tex_id, t_scene *scene)
 {
 	int		fd;
@@ -37,11 +25,6 @@ int dispatch_element(char *line, int tex_id, t_scene *scene)
     return (parse_tex(line, tex_id, scene));
 }
 
-/*
-	to do: check for duplicates, check for valid paths, check for valid colors
-
-	fill array with nulls, if its not thempty then its duplicate
-*/
 int parse_scene_info(int fd, t_scene *scene, char **first_map_line)
 {
 	char	*line;
@@ -86,11 +69,11 @@ int	read_map_file(char *map_file, t_scene *scene)
         close(fd);
         return (1);
     }
-	// if (parse_map(fd, scene, first_map_line))
-    // {
-    //     close(fd);
-    //     return (1);
-    // }
+	if (parse_map(fd, scene, first_map_line))
+    {
+        close(fd);
+        return (1);
+    }
 	close(fd);
 	return (0);
 }
@@ -102,12 +85,26 @@ int parse_scene(char *map_file, t_scene *scene)
 	scene->ceiling = -1;
 	while (i < 4)
 		scene->tex_path[i++] = NULL;
-	
 	if (read_map_file(map_file, scene))
 		return (1);
-	printf("Texture paths:\nNO: %s\nSO: %s\nWE: %s\nEA: %s\nF: %d\nC: %d\n", 
+	// ------------------PRINTING VALUES------------------------
+	printf("Texture paths:\nNO: %s\nSO: %s\nWE: %s\nEA: %s\nF: 0x%06X\nC: 0x%06X\n", 
 		scene->tex_path[TEX_NO], scene->tex_path[TEX_SO], scene->tex_path[TEX_WE],
 		scene->tex_path[TEX_EA], scene->floor, scene->ceiling);
+	
+	printf("map height: %d\n", scene->map.height);
+	printf("map width:  %d\n", scene->map.width);
+	// ----------------------END------------------------
+	// ------------------PRINTING MAP------------------------
+	i = 0;
+	int j = 0;
 
+	while (scene->map.grid[i])
+	{
+		printf("%s\n", scene->map.grid[i]);
+		i++;
+	}
+
+	// ----------------------END------------------------
 	return (0);
 }
