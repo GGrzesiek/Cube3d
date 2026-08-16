@@ -44,10 +44,25 @@ typedef struct s_scene {          /* <-- Person A fills this, Person B consumes 
 	char		start_dir;       /* 'N' 'S' 'E' 'W' */
 } t_scene;
 
+typedef struct s_map_line
+{
+	char				*content;
+	struct s_map_line	*next;
+}	t_map_line;
 
 int	parse_scene(char *map_file, t_scene *scene);
 int error_msg(char *msg);
 
+/*
+	parse_color.c
+*/
+int	parse_color(char *line, int tex_id, t_scene *scene);
+/*
+	parse_map.c
+*/
+int parse_map(int fd, t_scene *scene, char *first_map_line);
+int create_map(t_scene *scene, t_map_line **head);
+int validate_map(t_scene *scene);
 /*
 	parsing_utils.c
 */
@@ -57,5 +72,14 @@ int	is_tex_id_used(int tex_ID,  t_scene *scene);
 int handle_unknown_line(char *line, char **first_map_line, int counter);
 int identify_element(char *line);
 int dispatch_element(char *line, int tex_id, t_scene *scene);
+
+/*
+	list_utils.c
+*/
+t_map_line *new_map_line(char *content);
+void    add_map_line_back(t_map_line **head, t_map_line *node);
+void    free_map_lines(t_map_line **head);
+
+
 
 #endif

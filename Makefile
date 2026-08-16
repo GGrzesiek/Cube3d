@@ -9,7 +9,12 @@ INC_PATH = ./include/
 
 SRC = main.c \
 		parsing/parse_scene.c \
-		parsing/parsing_utils.c
+		parsing/parse_color.c \
+		parsing/parse_map.c \
+		parsing/parsing_utils.c \
+		parsing/create_map.c \
+		parsing/map_validation.c \
+		parsing/list_utils.c
 
 SRCS   = $(addprefix $(SRC_PATH), $(SRC))
 OBJ    = $(SRC:.c=.o)
