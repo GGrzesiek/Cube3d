@@ -28,7 +28,7 @@ typedef struct s_img {
 
 typedef struct s_map {
 	char	*file_name;
-	char	**grid;      /* space-padded rectangle */
+	char	**grid;
 	int		width;
 	int		height;
 } t_map;

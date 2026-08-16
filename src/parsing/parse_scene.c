@@ -94,6 +94,10 @@ int parse_scene(char *map_file, t_scene *scene)
 	
 	printf("map height: %d\n", scene->map.height);
 	printf("map width:  %d\n", scene->map.width);
+
+	printf("start x: %f\n", scene->start_x);
+	printf("start y: %f\n", scene->start_y);
+	printf("start dir: %c\n", scene->start_dir);
 	// ----------------------END------------------------
 	// ------------------PRINTING MAP------------------------
 	i = 0;

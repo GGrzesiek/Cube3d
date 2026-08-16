@@ -1,5 +1,23 @@
 #include "cube.h"
 
+int	is_player(char c)
+{
+	if (c == 'N' || c == 'S' || c == 'W' || c == 'E')
+		return (1);
+	return (0);
+}
+
+void	if_player(char cell, t_scene *scene, int y, int x)
+{
+	if (is_player(cell))
+	{
+		scene->start_dir = cell;
+		scene->start_x = (double)x + 0.5 + 1;
+		scene->start_y = (double)y + 0.5 - 1;
+	}
+}
+
+
 void	get_size(t_map_line **head, t_scene *scene)
 {
 	t_map_line  *curr;
@@ -15,7 +33,10 @@ void	get_size(t_map_line **head, t_scene *scene)
 		height++;
 		width = 0;
 		while (curr->content[width])
+		{
+			if_player(curr->content[width], scene, height, width);
 			width++;
+		}
 		if (width > width_max)
 			width_max = width;
 		curr=curr->next;
