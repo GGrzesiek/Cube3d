@@ -12,22 +12,15 @@ void	put_pixel(t_img *img, int x, int y, int color)
 
 void	render_frame(t_game *g)
 {
-	int	x;
-	int	y;
+	t_ray	ray;
+	int		x;
 
-	y = 0;
-	while (y < WIN_H)
+	x = 0;
+	while (x < WIN_W)
 	{
-		x = 0;
-		while (x < WIN_W)
-		{
-			if (y < WIN_H / 2)
-				put_pixel(&g->frame, x, y, g->scene->ceiling);
-			else
-				put_pixel(&g->frame, x, y, g->scene->floor);
-			x++;
-		}
-		y++;
+		cast_ray(g, &ray, x);
+		draw_column(g, &ray, x);
+		x++;
 	}
 }
 

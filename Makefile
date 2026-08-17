@@ -19,6 +19,7 @@ SRC = main.c \
 		engine/player_rotate.c \
 		render/render.c \
 		render/ray_init.c \
+		render/draw_column.c \
 		render/raycast.c \
 		render/stub_scene.c
 
