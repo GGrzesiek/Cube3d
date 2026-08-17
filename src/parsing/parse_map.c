@@ -8,6 +8,8 @@ int add_map_line(t_map_line **head, char *raw_line)
 	clean = ft_strtrim(raw_line, "\n\r");
 	if (!clean)
 		return (error_msg("malloc error in add_map_line :("));
+	if (validate_line(clean))
+		return (1);
 	node = new_map_line(clean);
 	if (!node)
 	{
@@ -52,7 +54,6 @@ int collect_map_lines(int fd, char *first_line, t_map_line **lines)
 	return (0);
 }
 
-
 int parse_map(int fd, t_scene *scene, char *first_map_line)
 {
 	t_map_line	*lines;
@@ -62,13 +63,11 @@ int parse_map(int fd, t_scene *scene, char *first_map_line)
 	{
 		free(first_map_line);
 		free_map_lines(&lines);
-		return (error_msg("map parsing error"));
+		return (1);
 	}
 	free(first_map_line);
 	if (create_map(scene, &lines))
 		return (1);
 	free_map_lines(&lines);
-	if (validate_map(scene))
-		return (1);
 	return (0);
 }

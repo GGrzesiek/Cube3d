@@ -45,19 +45,18 @@ void	get_size(t_map_line **head, t_scene *scene)
 	scene->map.width = width_max;
 }
 
-
 void	read_map(t_map_line **head, t_scene *scene)
 {
 	t_map_line  *curr;
 	int         i;
 	int			width;
 
-
 	curr = *head;
 	i = 0;
-	while (curr->next)
+	while (curr)
 	{
 		scene->map.grid[i] = ft_strdup(curr->content);
+		check_for_dir(scene, curr->content);
 		curr=curr->next;
 		i++;
 	}

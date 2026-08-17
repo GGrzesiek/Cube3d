@@ -1,6 +1,5 @@
 #include "cube.h"
 
-
 int	parse_tex(char *line, int tex_id, t_scene *scene)
 {
 	int		fd;
@@ -83,32 +82,13 @@ int parse_scene(char *map_file, t_scene *scene)
 	int i = 0;
 	scene->floor = -1;
 	scene->ceiling = -1;
+	scene->dir_count = 0;
 	while (i < 4)
 		scene->tex_path[i++] = NULL;
 	if (read_map_file(map_file, scene))
 		return (1);
-	// ------------------PRINTING VALUES------------------------
-	printf("Texture paths:\nNO: %s\nSO: %s\nWE: %s\nEA: %s\nF: 0x%06X\nC: 0x%06X\n", 
-		scene->tex_path[TEX_NO], scene->tex_path[TEX_SO], scene->tex_path[TEX_WE],
-		scene->tex_path[TEX_EA], scene->floor, scene->ceiling);
-	
-	printf("map height: %d\n", scene->map.height);
-	printf("map width:  %d\n", scene->map.width);
-
-	printf("start x: %f\n", scene->start_x);
-	printf("start y: %f\n", scene->start_y);
-	printf("start dir: %c\n", scene->start_dir);
-	// ----------------------END------------------------
-	// ------------------PRINTING MAP------------------------
-	i = 0;
-	int j = 0;
-
-	while (scene->map.grid[i])
-	{
-		printf("%s\n", scene->map.grid[i]);
-		i++;
-	}
-
-	// ----------------------END------------------------
+	// print_scene_info(scene); // delete later
+	if (validate_map(scene))
+		return (1);
 	return (0);
 }

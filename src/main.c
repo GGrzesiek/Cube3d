@@ -19,6 +19,8 @@ int	main(int argc, char **argv)
 		return (error_msg("usage: ./cub3D <scenefile.cub>"));
 	if (parse_scene(argv[1], &scene))
 		return (1);
-	return (0);
 	// return (run_game(&scene));
+	printf("-------------main end------------\n");
+	free_game(&scene);
+	return (0);
 }

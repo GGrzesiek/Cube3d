@@ -14,7 +14,9 @@ SRC = main.c \
 		parsing/parsing_utils.c \
 		parsing/create_map.c \
 		parsing/map_validation.c \
-		parsing/list_utils.c
+		parsing/list_utils.c \
+		parsing/printing_debug.c \
+		free/free_utils.c
 
 SRCS   = $(addprefix $(SRC_PATH), $(SRC))
 OBJ    = $(SRC:.c=.o)
