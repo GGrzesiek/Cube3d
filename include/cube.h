@@ -154,6 +154,11 @@ void	render_frame(t_game *g);
 void	put_pixel(t_img *img, int x, int y, int color);
 
 /*
+	ray_init.c
+*/
+void	init_ray(t_game *g, t_ray *r, int x);
+
+/*
 	stub_scene.c - temporary, delete once parse_map fills the grid
 */
 int		stub_fill_scene(t_scene *scene);
