@@ -47,9 +47,6 @@
 
 # define FOV_PLANE 0.66
 
-/* placeholder until the textures land */
-# define WALL_COLOR 0xC8C8C8
-
 typedef struct s_img
 {
 	void	*ptr;
@@ -175,6 +172,14 @@ void	draw_column(t_game *g, t_ray *r, int x);
 	texture_load.c
 */
 int		load_textures(t_game *g);
+
+/*
+	texture_map.c
+*/
+void	pick_face(t_ray *r);
+void	set_wall_x(t_game *g, t_ray *r);
+int		tex_column(t_img *tex, t_ray *r);
+int		tex_pixel(t_img *tex, int x, int y);
 
 /*
 	stub_scene.c - temporary, delete once parse_map fills the grid
