@@ -20,6 +20,7 @@ SRC = main.c \
 		render/render.c \
 		render/ray_init.c \
 		render/draw_column.c \
+		render/texture_load.c \
 		render/raycast.c \
 		render/stub_scene.c
 

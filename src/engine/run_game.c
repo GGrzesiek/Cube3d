@@ -49,6 +49,8 @@ int	run_game(t_scene *scene)
 	init_player(&game);
 	if (setup_mlx(&game))
 		return (cleanup_game(&game), error_msg("MiniLibX setup failed"));
+	if (load_textures(&game))
+		return (cleanup_game(&game), 1);
 	register_hooks(&game);
 	mlx_loop_hook(game.mlx, game_loop, &game);
 	mlx_loop(game.mlx);

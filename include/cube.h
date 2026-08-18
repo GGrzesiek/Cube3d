@@ -172,6 +172,11 @@ void	cast_ray(t_game *g, t_ray *r, int x);
 void	draw_column(t_game *g, t_ray *r, int x);
 
 /*
+	texture_load.c
+*/
+int		load_textures(t_game *g);
+
+/*
 	stub_scene.c - temporary, delete once parse_map fills the grid
 */
 int		stub_fill_scene(t_scene *scene);
