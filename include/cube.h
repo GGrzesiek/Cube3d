@@ -10,8 +10,8 @@
 # include <math.h>
 # include <sys/time.h>
 
-# define WIN_W 1280
-# define WIN_H 720
+# define WIN_W 1024
+# define WIN_H 768
 
 # define TEX_NO 0
 # define TEX_SO 1

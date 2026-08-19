@@ -39,7 +39,7 @@ The window's close button also exits cleanly.
 
 ## How it renders
 
-For each of the 1280 screen columns the renderer casts one ray, walks the grid with a DDA loop until
+For each of the 1024 screen columns the renderer casts one ray, walks the grid with a DDA loop until
 it meets a wall, converts the perpendicular distance to a wall-slice height, and draws that slice
 sampled from the texture of the wall face it hit. Floor and ceiling are flat colours.
 
