@@ -1,4 +1,4 @@
-NAME = cube3d
+NAME = cub3D
 
 CC = cc
 CFLAGS = #-Wall -Wextra -Werror
@@ -9,15 +9,32 @@ INC_PATH = ./include/
 
 SRC = main.c \
 		parsing/parse_scene.c \
-		parsing/parsing_utils.c
+		parsing/parsing_utils.c \
+		utils/error.c \
+		utils/cleanup.c \
+		engine/run_game.c \
+		engine/hooks.c \
+		engine/player.c \
+		engine/player_move.c \
+		engine/player_rotate.c \
+		render/render.c \
+		render/ray_init.c \
+		render/draw_column.c \
+		render/texture_load.c \
+		render/texture_map.c \
+		render/raycast.c \
+		render/stub_scene.c
 
 SRCS   = $(addprefix $(SRC_PATH), $(SRC))
 OBJ    = $(SRC:.c=.o)
 OBJS	= $(addprefix $(OBJ_PATH), $(OBJ))
-INC		= -I $(INC_PATH) -I $(LIBFT_PATH)
+INC		= -I $(INC_PATH) -I $(LIBFT_PATH) -I $(MLX_PATH)
 
 LIBFT_PATH = ./libft/
 LIBFT = ./libft/libft.a
+
+MLX_PATH = ./mlx_linux/
+MLX = -L $(MLX_PATH) -lmlx_Linux -lXext -lX11 -lm
 
 GREEN = \033[0;32m
 RED = \033[0;31m
@@ -30,15 +47,17 @@ $(OBJ_PATH):
 	mkdir -p $(OBJ_PATH)
 	@echo "$(BLUE)Created object directories$(NC)"
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+$(OBJ_PATH)%.o: $(SRC_PATH)%.c $(INC_PATH)cube.h
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@ $(INC)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(INC) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(INC) $(LIBFT) $(MLX)
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_PATH)
+
+bonus: all
 
 clean:
 	rm -rf $(OBJ_PATH)
@@ -52,4 +71,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all bonus clean fclean re
