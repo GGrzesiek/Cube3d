@@ -63,7 +63,7 @@ src/parsing/        .cub file reading and validation
 src/engine/         run_game, hooks, player state, movement, rotation
 src/render/         frame loop, ray setup, DDA, column drawing, textures
 src/utils/          error reporting, cleanup
-tools/              gen_textures.py, regenerates the four wall textures
+tools/              png_to_xpm.py, converts the wall textures to xpm
 maps/               scene files
 ```
 
