@@ -75,6 +75,7 @@ typedef struct s_scene
 	double	start_x;
 	double	start_y;
 	char	start_dir;
+	int		dir_count;
 }	t_scene;
 
 typedef struct s_ray
@@ -123,22 +124,21 @@ void	free_scene(t_scene *scene);
 int		error_msg(char *msg);
 void	cleanup_game(t_game *g);
 
-typedef struct s_scene {          /* <-- Person A fills this, Person B consumes it */
-	char      	*tex_path[4];      /* indexed by TEX_NO..TEX_EA */
-	int			floor;              /* 0xRRGGBB, -1 = unset */
-	int			ceiling;
-	t_map		map;
-	double		start_x;            /* cell centre: (col + 0.5) */
-	double		start_y;
-	char		start_dir;       /* 'N' 'S' 'E' 'W' */
-	int			dir_count;
-} t_scene;
-
 typedef struct s_map_line
 {
 	char				*content;
 	struct s_map_line	*next;
 }	t_map_line;
+
+/*
+	player.c
+*/
+void	init_player(t_game *g);
+
+/*
+	player_move.c
+*/
+void	move_player(t_game *g);
 
 /*
 	player_rotate.c
