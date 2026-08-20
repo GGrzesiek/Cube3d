@@ -123,15 +123,22 @@ void	free_scene(t_scene *scene);
 int		error_msg(char *msg);
 void	cleanup_game(t_game *g);
 
-/*
-	player.c
-*/
-void	init_player(t_game *g);
+typedef struct s_scene {          /* <-- Person A fills this, Person B consumes it */
+	char      	*tex_path[4];      /* indexed by TEX_NO..TEX_EA */
+	int			floor;              /* 0xRRGGBB, -1 = unset */
+	int			ceiling;
+	t_map		map;
+	double		start_x;            /* cell centre: (col + 0.5) */
+	double		start_y;
+	char		start_dir;       /* 'N' 'S' 'E' 'W' */
+	int			dir_count;
+} t_scene;
 
-/*
-	player_move.c
-*/
-void	move_player(t_game *g);
+typedef struct s_map_line
+{
+	char				*content;
+	struct s_map_line	*next;
+}	t_map_line;
 
 /*
 	player_rotate.c
@@ -187,13 +194,46 @@ int		tex_pixel(t_img *tex, int x, int y);
 int		stub_fill_scene(t_scene *scene);
 
 /*
+	parse_color.c
+*/
+int	parse_color(char *line, int tex_id, t_scene *scene);
+/*
+	parse_map.c
+*/
+int parse_map(int fd, t_scene *scene, char *first_map_line);
+int create_map(t_scene *scene, t_map_line **head);
+int	is_player(char c);
+/*
 	parsing_utils.c
 */
-int		is_line_empty(char *line);
-int		validate_file(char *map_file);
-int		is_tex_id_used(int tex_id, t_scene *scene);
-int		handle_unknown_line(char *line, char **first_map_line, int counter);
-int		identify_element(char *line);
-int		dispatch_element(char *line, int tex_id, t_scene *scene);
+int is_line_empty(char *line);
+int validate_file(char *map_file);
+int	is_tex_id_used(int tex_ID,  t_scene *scene);
+int handle_unknown_line(char *line, char **first_map_line, int counter);
+int identify_element(char *line);
+int dispatch_element(char *line, int tex_id, t_scene *scene);
+/*
+	map_validation.c
+*/
+int validate_map(t_scene *scene);
+int validate_line(char *map_line);
+void    check_for_dir(t_scene *scene, char *line);
+/*
+	list_utils.c
+*/
+t_map_line *new_map_line(char *content);
+void    add_map_line_back(t_map_line **head, t_map_line *node);
+void    free_map_lines(t_map_line **head);
+/*
+	free_utils.c
+*/
+void    free_game(t_scene *scene);
+
+
+/*
+	printing_debug.c
+*/
+void	print_map_lines(t_map_line	**head);
+void	print_scene_info(t_scene *scene);
 
 #endif

@@ -9,6 +9,14 @@ INC_PATH = ./include/
 
 SRC = main.c \
 		parsing/parse_scene.c \
+		parsing/parse_color.c \
+		parsing/parse_map.c \
+		parsing/parsing_utils.c \
+		parsing/create_map.c \
+		parsing/map_validation.c \
+		parsing/list_utils.c \
+		parsing/printing_debug.c \
+		free/free_utils.c
 		parsing/parsing_utils.c \
 		utils/error.c \
 		utils/cleanup.c \
