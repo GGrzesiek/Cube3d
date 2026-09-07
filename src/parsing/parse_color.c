@@ -25,7 +25,7 @@ void	free_tab(char ***tab_ptr)
 	*tab_ptr = NULL;
 }
 
-int	validate_color(char *color, char **colors)
+int	validate_color(char *color)
 {
 	int	i;
 
@@ -58,15 +58,15 @@ int	get_color(char *line, int *full_color)
 	i = 0;
 	while (colors[i] && i < 3)
 	{
-		if (validate_color(colors[i], colors))
-			return (-1);
+		if (validate_color(colors[i]))
+			return (free_tab(&colors), -1);
 		rgb[i] = ft_atoi(colors[i]);
 		if (!(rgb[i] >= 0 && rgb[i] <= 255))
 			return (free_tab(&colors), error_msg("Color Value out of range"));
 		i++;
 	}
 	if (i != 3)
-		return (error_msg("Wrong amount of color values"));
+		return (free_tab(&colors), error_msg("Wrong amount of color values"));
 	free_tab(&colors);
 	*full_color = (rgb[0] << 16) | (rgb[1] << 8) | rgb[2];
 	return (0);

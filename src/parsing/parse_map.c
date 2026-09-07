@@ -1,9 +1,9 @@
 #include "cube.h"
 
-int add_map_line(t_map_line **head, char *raw_line)
+int	add_map_line(t_map_line **head, char *raw_line)
 {
-	char    *clean;
-	t_map_line *node;
+	char		*clean;
+	t_map_line	*node;
 
 	clean = ft_strtrim(raw_line, "\n\r");
 	if (!clean)
@@ -20,7 +20,7 @@ int add_map_line(t_map_line **head, char *raw_line)
 	return (0);
 }
 
-int process_map_line(char *line, t_map_line **lines, int *map_ended)
+int	process_map_line(char *line, t_map_line **lines, int *map_ended)
 {
 	if (is_line_empty(line))
 	{
@@ -28,11 +28,11 @@ int process_map_line(char *line, t_map_line **lines, int *map_ended)
 		return (0);
 	}
 	if (*map_ended)
-        return (error_msg("Empty line inside map"));
+		return (error_msg("Empty line inside map"));
 	return (add_map_line(lines, line));
 }
 
-int collect_map_lines(int fd, char *first_line, t_map_line **lines)
+int	collect_map_lines(int fd, char *first_line, t_map_line **lines)
 {
 	char	*line;
 	int		map_ended;
@@ -54,7 +54,7 @@ int collect_map_lines(int fd, char *first_line, t_map_line **lines)
 	return (0);
 }
 
-int parse_map(int fd, t_scene *scene, char *first_map_line)
+int	parse_map(int fd, t_scene *scene, char *first_map_line)
 {
 	t_map_line	*lines;
 
@@ -67,7 +67,10 @@ int parse_map(int fd, t_scene *scene, char *first_map_line)
 	}
 	free(first_map_line);
 	if (create_map(scene, &lines))
+	{
+		free_map_lines(&lines);
 		return (1);
+	}
 	free_map_lines(&lines);
 	return (0);
 }

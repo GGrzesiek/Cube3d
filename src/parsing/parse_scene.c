@@ -3,7 +3,6 @@
 int	parse_tex(char *line, int tex_id, t_scene *scene)
 {
 	int		fd;
-	int		i;
 
 	if (is_tex_id_used(tex_id, scene))
 		return (error_msg("Duplicate texture identifier"));
@@ -17,14 +16,14 @@ int	parse_tex(char *line, int tex_id, t_scene *scene)
 	return (0);
 }
 
-int dispatch_element(char *line, int tex_id, t_scene *scene)
+int	dispatch_element(char *line, int tex_id, t_scene *scene)
 {
-    if (tex_id == TEX_F || tex_id == TEX_C)
-        return (parse_color(line, tex_id, scene));
-    return (parse_tex(line, tex_id, scene));
+	if (tex_id == TEX_F || tex_id == TEX_C)
+		return (parse_color(line, tex_id, scene));
+	return (parse_tex(line, tex_id, scene));
 }
 
-int parse_scene_info(int fd, t_scene *scene, char **first_map_line)
+int	parse_scene_info(int fd, t_scene *scene, char **first_map_line)
 {
 	char	*line;
 	int		tex_id;
@@ -63,23 +62,25 @@ int	read_map_file(char *map_file, t_scene *scene)
 		return (error_msg("Cannot open a file"));
 	first_map_line = NULL;
 	if (parse_scene_info(fd, scene, &first_map_line))
-    {
-        free(first_map_line);
-        close(fd);
-        return (1);
-    }
+	{
+		free(first_map_line);
+		close(fd);
+		return (1);
+	}
 	if (parse_map(fd, scene, first_map_line))
-    {
-        close(fd);
-        return (1);
-    }
+	{
+		close(fd);
+		return (1);
+	}
 	close(fd);
 	return (0);
 }
 
-int parse_scene(char *map_file, t_scene *scene)
+int	parse_scene(char *map_file, t_scene *scene)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	scene->floor = -1;
 	scene->ceiling = -1;
 	scene->dir_count = 0;
@@ -87,7 +88,6 @@ int parse_scene(char *map_file, t_scene *scene)
 		scene->tex_path[i++] = NULL;
 	if (read_map_file(map_file, scene))
 		return (1);
-	// print_scene_info(scene); // delete later
 	if (validate_map(scene))
 		return (1);
 	return (0);
