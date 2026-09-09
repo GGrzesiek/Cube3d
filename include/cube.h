@@ -3,12 +3,12 @@
 
 # include "../libft/libft.h"
 # include "../mlx_linux/mlx.h"
+# include <fcntl.h>
+# include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <fcntl.h>
-# include <unistd.h>
-# include <math.h>
 # include <sys/time.h>
+# include <unistd.h>
 
 # define WIN_W 1024
 # define WIN_H 768
@@ -49,191 +49,192 @@
 
 typedef struct s_img
 {
-	void	*ptr;
-	char	*addr;
-	int		bpp;
-	int		line_len;
-	int		endian;
-	int		width;
-	int		height;
-}	t_img;
+	void				*ptr;
+	char				*addr;
+	int					bpp;
+	int					line_len;
+	int					endian;
+	int					width;
+	int					height;
+}						t_img;
 
 typedef struct s_map
 {
-	char	*file_name;
-	char	**grid;
-	int		width;
-	int		height;
-}	t_map;
+	char				*file_name;
+	char				**grid;
+	int					width;
+	int					height;
+}						t_map;
 
 typedef struct s_scene
 {
-	char	*tex_path[4];
-	int		floor;
-	int		ceiling;
-	t_map	map;
-	double	start_x;
-	double	start_y;
-	char	start_dir;
-	int		dir_count;
-}	t_scene;
+	char				*tex_path[4];
+	int					floor;
+	int					ceiling;
+	t_map				map;
+	double				start_x;
+	double				start_y;
+	char				start_dir;
+	int					dir_count;
+}						t_scene;
 
 typedef struct s_ray
 {
-	double	dir_x;
-	double	dir_y;
-	double	side_x;
-	double	side_y;
-	double	delta_x;
-	double	delta_y;
-	double	perp_dist;
-	double	wall_x;
-	int		map_x;
-	int		map_y;
-	int		step_x;
-	int		step_y;
-	int		side;
-	int		line_h;
-	int		draw_start;
-	int		draw_end;
-	int		tex_id;
-}	t_ray;
+	double				dir_x;
+	double				dir_y;
+	double				side_x;
+	double				side_y;
+	double				delta_x;
+	double				delta_y;
+	double				perp_dist;
+	double				wall_x;
+	int					map_x;
+	int					map_y;
+	int					step_x;
+	int					step_y;
+	int					side;
+	int					line_h;
+	int					draw_start;
+	int					draw_end;
+	int					tex_id;
+}						t_ray;
 
 typedef struct s_game
 {
-	void	*mlx;
-	void	*win;
-	t_img	frame;
-	t_img	tex[4];
-	t_scene	*scene;
-	double	pos_x;
-	double	pos_y;
-	double	dir_x;
-	double	dir_y;
-	double	plane_x;
-	double	plane_y;
-	double	frame_time;
-	long	last_us;
-	int		keys[KEY_COUNT];
-}	t_game;
+	void				*mlx;
+	void				*win;
+	t_img				frame;
+	t_img				tex[4];
+	t_scene				*scene;
+	double				pos_x;
+	double				pos_y;
+	double				dir_x;
+	double				dir_y;
+	double				plane_x;
+	double				plane_y;
+	double				frame_time;
+	long				last_us;
+	int					keys[KEY_COUNT];
+}						t_game;
 
-int		parse_scene(char *map_file, t_scene *scene);
-int		run_game(t_scene *scene);
-void	update_frame_time(t_game *g);
-void	free_scene(t_scene *scene);
-int		error_msg(char *msg);
-void	cleanup_game(t_game *g);
+int						parse_scene(char *map_file, t_scene *scene);
+int						run_game(t_scene *scene);
+void					update_frame_time(t_game *g);
+void					free_scene(t_scene *scene);
+int						error_msg(char *msg);
+void					cleanup_game(t_game *g);
 
 typedef struct s_map_line
 {
 	char				*content;
 	struct s_map_line	*next;
-}	t_map_line;
+}						t_map_line;
 
 /*
 	player.c
 */
-void	init_player(t_game *g);
+void					init_player(t_game *g);
 
 /*
 	player_move.c
 */
-void	move_player(t_game *g);
+void					move_player(t_game *g);
 
 /*
 	player_rotate.c
 */
-void	rotate_player(t_game *g);
+void					rotate_player(t_game *g);
 
 /*
 	hooks.c
 */
-void	register_hooks(t_game *g);
-int		on_key_down(int keycode, t_game *g);
-int		on_key_up(int keycode, t_game *g);
-int		on_close(t_game *g);
+void					register_hooks(t_game *g);
+int						on_key_down(int keycode, t_game *g);
+int						on_key_up(int keycode, t_game *g);
+int						on_close(t_game *g);
 
 /*
 	render.c
 */
-int		game_loop(t_game *g);
-void	render_frame(t_game *g);
-void	put_pixel(t_img *img, int x, int y, int color);
+int						game_loop(t_game *g);
+void					render_frame(t_game *g);
+void					put_pixel(t_img *img, int x, int y, int color);
 
 /*
 	ray_init.c
 */
-void	init_ray(t_game *g, t_ray *r, int x);
+void					init_ray(t_game *g, t_ray *r, int x);
 
 /*
 	raycast.c
 */
-void	cast_ray(t_game *g, t_ray *r, int x);
+void					cast_ray(t_game *g, t_ray *r, int x);
 
 /*
 	draw_column.c
 */
-void	draw_column(t_game *g, t_ray *r, int x);
+void					draw_column(t_game *g, t_ray *r, int x);
 
 /*
 	texture_load.c
 */
-int		load_textures(t_game *g);
+int						load_textures(t_game *g);
 
 /*
 	texture_map.c
 */
-void	pick_face(t_ray *r);
-void	set_wall_x(t_game *g, t_ray *r);
-int		tex_column(t_img *tex, t_ray *r);
-int		tex_pixel(t_img *tex, int x, int y);
+void					pick_face(t_ray *r);
+void					set_wall_x(t_game *g, t_ray *r);
+int						tex_column(t_img *tex, t_ray *r);
+int						tex_pixel(t_img *tex, int x, int y);
 
 /*
 	stub_scene.c - temporary, delete once parse_map fills the grid
 */
-int		stub_fill_scene(t_scene *scene);
+int						stub_fill_scene(t_scene *scene);
 
 /*
 	parse_color.c
 */
-int	parse_color(char *line, int tex_id, t_scene *scene);
+int						parse_color(char *line, int tex_id, t_scene *scene);
 /*
 	parse_map.c
 */
-int parse_map(int fd, t_scene *scene, char *first_map_line);
-int create_map(t_scene *scene, t_map_line **head);
-int	is_player(char c);
+int						parse_map(int fd, t_scene *scene, char *first_map_line);
+int						create_map(t_scene *scene, t_map_line **head);
+int						is_player(char c);
 /*
 	parsing_utils.c
 */
-int is_line_empty(char *line);
-int validate_file(char *map_file);
-int	is_tex_id_used(int tex_ID,  t_scene *scene);
-int handle_unknown_line(char *line, char **first_map_line, int counter);
-int identify_element(char *line);
-int dispatch_element(char *line, int tex_id, t_scene *scene);
+int						is_line_empty(char *line);
+int						validate_file(char *map_file);
+int						is_tex_id_used(int tex_ID, t_scene *scene);
+int						handle_unknown_line(char *line, char **first_map_line,
+							int counter);
+int						identify_element(char *line);
+int						dispatch_element(char *line, int tex_id,
+							t_scene *scene);
 /*
 	map_validation.c
 */
-int validate_map(t_scene *scene);
-int validate_line(char *map_line);
-void    check_for_dir(t_scene *scene, char *line);
+int						validate_map(t_scene *scene);
+int						validate_line(char *map_line);
+void					check_for_dir(t_scene *scene, char *line);
 /*
 	list_utils.c
 */
-t_map_line *new_map_line(char *content);
-void    add_map_line_back(t_map_line **head, t_map_line *node);
-void    free_map_lines(t_map_line **head);
+t_map_line				*new_map_line(char *content);
+void					add_map_line_back(t_map_line **head, t_map_line *node);
+void					free_map_lines(t_map_line **head);
 /*
 	free_utils.c
 */
-void    free_game(t_scene *scene);
-
+void					free_game(t_scene *scene);
 
 /*
 	printing_debug.c
 */
-void	print_map_lines(t_map_line	**head);
-void	print_scene_info(t_scene *scene);
+void					print_map_lines(t_map_line **head);
+void					print_scene_info(t_scene *scene);
 
 #endif
