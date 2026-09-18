@@ -10,6 +10,35 @@ Built by two people along a parser/renderer seam:
 - **parser** (`src/parsing/`) — reading and validating the `.cub` file
 - **renderer** (`src/engine/`, `src/render/`) — window, input, movement, raycasting, textures
 
+## Setup
+
+MiniLibX is **not committed**. A fresh clone will not build until you put it in `./mlx_linux`
+yourself:
+
+```
+git clone https://github.com/42Paris/minilibx-linux.git mlx_linux
+make -C mlx_linux
+```
+
+That produces `mlx_linux/libmlx_Linux.a`, which is what the link line asks for.
+
+MiniLibX needs the X11 development headers to compile. A 42 workstation already has them; a
+personal Linux machine usually does not:
+
+```
+sudo apt install build-essential libx11-dev libxext-dev libbsd-dev
+```
+
+Without `mlx_linux/` the build stops on the very first file with:
+
+```
+./include/cube.h:5:11: fatal error: ../mlx_linux/mlx.h: No such file or directory
+```
+
+The path to MiniLibX is written in two places — `MLX_PATH` in the `Makefile` and the `#include` at
+the top of `include/cube.h` — so both change together if the build is ever pointed at a system
+install instead.
+
 ## Build
 
 ```
@@ -18,9 +47,6 @@ make re         # full rebuild
 make clean      # remove obj/
 make fclean     # also remove the binary
 ```
-
-MiniLibX is expected in `./mlx_linux` and is not committed. The Makefile reaches it through a single
-`MLX_PATH` variable, so pointing the build at a system install is a one-line change.
 
 ## Run
 
