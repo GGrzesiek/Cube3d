@@ -91,7 +91,9 @@ char	*get_next_line(int fd)
 	char		*tmp;
 	char		*res;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0)
+		return (free_buff(&buff));
+	if (BUFFER_SIZE <= 0)
 		return (NULL);
 	tmp = handle_buff(fd);
 	new_buff = ft_strjoin(buff, tmp);
