@@ -12,7 +12,7 @@
 
 #include "cube.h"
 
-int	is_color_used(int tex_id, t_scene *scene)
+static int	is_color_used(int tex_id, t_scene *scene)
 {
 	if (tex_id == TEX_F && scene->floor != -1)
 		return (1);
@@ -21,41 +21,57 @@ int	is_color_used(int tex_id, t_scene *scene)
 	return (0);
 }
 
-void	free_tab(char ***tab_ptr)
+/* Both checks are needed: ft_split collapses empty tokens, so "0,,255" has
+   2 tokens but 2 commas, and "0,0,0," on the last line of a file with no
+   trailing newline splits to 3 tokens - only the comma count catches it. */
+static int	wrong_count(char *args, char **colors)
 {
+	int	commas;
+	int	tokens;
 	int	i;
 
+	commas = 0;
 	i = 0;
-	if (!tab_ptr || !*tab_ptr)
-		return ;
-	while ((*tab_ptr)[i])
+	while (args[i])
 	{
-		free((*tab_ptr)[i]);
+		if (args[i] == ',')
+			commas++;
 		i++;
 	}
-	free(*tab_ptr);
-	*tab_ptr = NULL;
+	tokens = 0;
+	while (colors[tokens])
+		tokens++;
+	return (commas != 2 || tokens != 3);
 }
 
-int	validate_color(char *color)
+/* Capping inside the digit loop keeps *value <= 2559, so no count of digits
+   can overflow it - which is why ft_atoi is never called on a colour. */
+static int	validate_color(char *color, int *value)
 {
 	int	i;
 
 	i = 0;
+	*value = 0;
 	while (color[i] == ' ' || color[i] == '\t')
 		i++;
-	if (!color[i])
-		return (error_msg("Empty color value"));
+	if (!ft_isdigit(color[i]))
+		return (error_msg("Color value is not a number"));
 	while (ft_isdigit(color[i]))
+	{
+		*value = *value * 10 + (color[i] - '0');
+		if (*value > 255)
+			return (error_msg("Color value out of range"));
 		i++;
-	while (color[i] == ' ' || color[i] == '\t' || color[i] == '\n')
+	}
+	while (color[i] == ' ' || color[i] == '\t' || color[i] == '\n'
+		|| color[i] == '\r')
 		i++;
 	if (color[i])
 		return (error_msg("Invalid character in color value"));
 	return (0);
 }
 
-int	get_color(char *line, int *full_color)
+static int	get_color(char *line, int *full_color)
 {
 	char	**colors;
 	int		rgb[3];
@@ -66,19 +82,16 @@ int	get_color(char *line, int *full_color)
 		i++;
 	colors = ft_split(line + i, ',');
 	if (!colors)
-		return (1);
+		return (error_msg("Malloc error in get_color :("));
+	if (wrong_count(line + i, colors))
+		return (free_tab(&colors), error_msg("Wrong amount of color values"));
 	i = 0;
-	while (colors[i] && i < 3)
+	while (i < 3)
 	{
-		if (validate_color(colors[i]))
-			return (free_tab(&colors), -1);
-		rgb[i] = ft_atoi(colors[i]);
-		if (!(rgb[i] >= 0 && rgb[i] <= 255))
-			return (free_tab(&colors), error_msg("Color Value out of range"));
+		if (validate_color(colors[i], &rgb[i]))
+			return (free_tab(&colors), 1);
 		i++;
 	}
-	if (i != 3)
-		return (free_tab(&colors), error_msg("Wrong amount of color values"));
 	free_tab(&colors);
 	*full_color = (rgb[0] << 16) | (rgb[1] << 8) | rgb[2];
 	return (0);

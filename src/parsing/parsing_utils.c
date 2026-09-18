@@ -19,7 +19,8 @@ int	is_line_empty(char *line)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+		if (line[i] != ' ' && line[i] != '\t' && line[i] != '\n'
+			&& line[i] != '\r')
 			return (0);
 		i++;
 	}

@@ -18,7 +18,7 @@ int	parse_tex(char *line, int tex_id, t_scene *scene)
 
 	if (is_tex_id_used(tex_id, scene))
 		return (error_msg("Duplicate texture identifier"));
-	scene->tex_path[tex_id] = ft_strtrim(line + 2, " \t\n");
+	scene->tex_path[tex_id] = ft_strtrim(line + 2, " \t\n\r");
 	if (!scene->tex_path[tex_id])
 		return (error_msg("Malloc error :("));
 	fd = open(scene->tex_path[tex_id], O_RDONLY);
@@ -77,14 +77,15 @@ int	read_map_file(char *map_file, t_scene *scene)
 	{
 		free(first_map_line);
 		close(fd);
-		return (1);
+		return (get_next_line(-1), 1);
 	}
 	if (parse_map(fd, scene, first_map_line))
 	{
 		close(fd);
-		return (1);
+		return (get_next_line(-1), 1);
 	}
 	close(fd);
+	get_next_line(-1);
 	return (0);
 }
 

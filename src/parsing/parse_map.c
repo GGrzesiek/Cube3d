@@ -21,7 +21,7 @@ int	add_map_line(t_map_line **head, char *raw_line)
 	if (!clean)
 		return (error_msg("malloc error in add_map_line :("));
 	if (validate_line(clean))
-		return (1);
+		return (free(clean), 1);
 	node = new_map_line(clean);
 	if (!node)
 	{

@@ -1,7 +1,7 @@
 NAME = cub3D
 
 CC = cc
-CFLAGS = #-Wall -Wextra -Werror
+CFLAGS = -std=gnu17 -Wall -Wextra -Werror
 
 SRC_PATH = ./src/
 OBJ_PATH = ./obj/
@@ -13,9 +13,9 @@ SRC = main.c \
 		parsing/parse_map.c \
 		parsing/parsing_utils.c \
 		parsing/create_map.c \
+		parsing/map_grid.c \
 		parsing/map_validation.c \
 		parsing/list_utils.c \
-		parsing/printing_debug.c \
 		free/free_utils.c \
 		utils/error.c \
 		utils/cleanup.c \
@@ -29,8 +29,7 @@ SRC = main.c \
 		render/draw_column.c \
 		render/texture_load.c \
 		render/texture_map.c \
-		render/raycast.c \
-		render/stub_scene.c
+		render/raycast.c
 
 SRCS   = $(addprefix $(SRC_PATH), $(SRC))
 OBJ    = $(SRC:.c=.o)
