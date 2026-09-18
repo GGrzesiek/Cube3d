@@ -29,8 +29,7 @@ SRC = main.c \
 		render/draw_column.c \
 		render/texture_load.c \
 		render/texture_map.c \
-		render/raycast.c \
-		render/stub_scene.c
+		render/raycast.c
 
 SRCS   = $(addprefix $(SRC_PATH), $(SRC))
 OBJ    = $(SRC:.c=.o)

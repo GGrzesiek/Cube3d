@@ -1,26 +1,5 @@
 #include "cube.h"
 
-void	free_grid(char **grid)
-{
-	int	i;
-
-	if (!grid || !(*grid))
-		return ;
-	i = 0;
-	while (grid[i])
-	{
-		free(grid[i]);
-		i++;
-	}
-	free(grid);
-	grid = NULL;
-}
-
-void	free_game(t_scene *scene)
-{
-	free_grid(scene->map.grid);
-}
-
 void	free_tab(char ***tab_ptr)
 {
 	int	i;
@@ -35,4 +14,24 @@ void	free_tab(char ***tab_ptr)
 	}
 	free(*tab_ptr);
 	*tab_ptr = NULL;
+}
+
+/* Idempotent and safe on a partially filled scene: every pointer is freed
+   then nulled, so a second call is a no-op. */
+void	free_scene(t_scene *scene)
+{
+	int	i;
+
+	if (!scene)
+		return ;
+	i = 0;
+	while (i < 4)
+	{
+		free(scene->tex_path[i]);
+		scene->tex_path[i] = NULL;
+		i++;
+	}
+	free_tab(&scene->map.grid);
+	free(scene->map.file_name);
+	scene->map.file_name = NULL;
 }

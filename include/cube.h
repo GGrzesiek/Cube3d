@@ -189,11 +189,6 @@ int						tex_column(t_img *tex, t_ray *r);
 int						tex_pixel(t_img *tex, int x, int y);
 
 /*
-	stub_scene.c - temporary, delete once parse_map fills the grid
-*/
-int						stub_fill_scene(t_scene *scene);
-
-/*
 	parse_color.c
 */
 int						parse_color(char *line, int tex_id, t_scene *scene);
@@ -233,7 +228,6 @@ void					free_map_lines(t_map_line **head);
 /*
 	free_utils.c
 */
-void					free_game(t_scene *scene);
 void					free_tab(char ***tab_ptr);
 
 /*
