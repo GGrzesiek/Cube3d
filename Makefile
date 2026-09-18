@@ -13,6 +13,7 @@ SRC = main.c \
 		parsing/parse_map.c \
 		parsing/parsing_utils.c \
 		parsing/create_map.c \
+		parsing/map_grid.c \
 		parsing/map_validation.c \
 		parsing/list_utils.c \
 		free/free_utils.c \

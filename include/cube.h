@@ -204,6 +204,10 @@ int						parse_map(int fd, t_scene *scene, char *first_map_line);
 int						create_map(t_scene *scene, t_map_line **head);
 int						is_player(char c);
 /*
+	map_grid.c
+*/
+int						build_grid(t_scene *scene, t_map_line **head);
+/*
 	parsing_utils.c
 */
 int						is_line_empty(char *line);

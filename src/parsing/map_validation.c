@@ -36,21 +36,13 @@ void	check_for_dir(t_scene *scene, char *line)
 
 int	near_space(int i, int j, char **g)
 {
-	if (g[i + 1][j] == ' ' || g[i + 1][j] == '\0')
+	if (g[i + 1][j] == ' ' || g[i - 1][j] == ' ')
 		return (1);
-	if (g[i - 1][j] == ' ' || g[i - 1][j] == '\0')
+	if (g[i][j - 1] == ' ' || g[i][j + 1] == ' ')
 		return (1);
-	if (g[i][j - 1] == ' ' || g[i][j - 1] == '\0')
+	if (g[i + 1][j + 1] == ' ' || g[i - 1][j + 1] == ' ')
 		return (1);
-	if (g[i][j + 1] == ' ' || g[i][j + 1] == '\0')
-		return (1);
-	if (g[i + 1][j + 1] == ' ' || g[i + 1][j + 1] == '\0')
-		return (1);
-	if (g[i - 1][j + 1] == ' ' || g[i - 1][j + 1] == '\0')
-		return (1);
-	if (g[i + 1][j - 1] == ' ' || g[i + 1][j - 1] == '\0')
-		return (1);
-	if (g[i - 1][j - 1] == ' ' || g[i - 1][j - 1] == '\0')
+	if (g[i + 1][j - 1] == ' ' || g[i - 1][j - 1] == ' ')
 		return (1);
 	return (0);
 }
