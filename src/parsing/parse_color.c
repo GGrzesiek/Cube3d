@@ -9,8 +9,9 @@ static int	is_color_used(int tex_id, t_scene *scene)
 	return (0);
 }
 
-/* Both checks are needed: ft_split collapses empty tokens, so "1,2,3,4"
-   fails on the token count and "0,0,0," only fails on the comma count. */
+/* Both checks are needed: ft_split collapses empty tokens, so "0,,255" has
+   2 tokens but 2 commas, and "0,0,0," on the last line of a file with no
+   trailing newline splits to 3 tokens - only the comma count catches it. */
 static int	wrong_count(char *args, char **colors)
 {
 	int	commas;
