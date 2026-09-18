@@ -6,7 +6,7 @@ int	parse_tex(char *line, int tex_id, t_scene *scene)
 
 	if (is_tex_id_used(tex_id, scene))
 		return (error_msg("Duplicate texture identifier"));
-	scene->tex_path[tex_id] = ft_strtrim(line + 2, " \t\n");
+	scene->tex_path[tex_id] = ft_strtrim(line + 2, " \t\n\r");
 	if (!scene->tex_path[tex_id])
 		return (error_msg("Malloc error :("));
 	fd = open(scene->tex_path[tex_id], O_RDONLY);
