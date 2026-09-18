@@ -234,6 +234,7 @@ void					free_map_lines(t_map_line **head);
 	free_utils.c
 */
 void					free_game(t_scene *scene);
+void					free_tab(char ***tab_ptr);
 
 /*
 	printing_debug.c
