@@ -230,10 +230,4 @@ void					free_map_lines(t_map_line **head);
 */
 void					free_tab(char ***tab_ptr);
 
-/*
-	printing_debug.c
-*/
-void					print_map_lines(t_map_line **head);
-void					print_scene_info(t_scene *scene);
-
 #endif
