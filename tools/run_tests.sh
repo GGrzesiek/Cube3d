@@ -158,14 +158,18 @@ if [ "$DO_VALGRIND" -eq 1 ]; then
 	if ! command -v valgrind >/dev/null 2>&1; then
 		skip "leak checks" "valgrind not installed"
 	else
-		for file in maps/invalid/*.cub; do
+		for file in maps/invalid/*; do
 			[ -d "$file" ] && continue
 			out=$(timeout 30 valgrind --leak-check=full --show-leak-kinds=all \
 				--errors-for-leak-kinds=all --error-exitcode=42 \
 				"$BIN" "$file" 2>&1 >/dev/null)
 			rc=$?
-			if [ "$rc" -eq 42 ]; then
-				bad "$file" "$(printf '%s\n' "$out" | grep -E 'lost:|ERROR SUMMARY' | head -4)"
+			# Assert the expected code, not merely the absence of one bad one:
+			# 42 is a leak, 139 a signal, 124 a timeout. --error-exitcode only
+			# applies when the client exits normally, so a segfault would slip
+			# past an "is it 42?" test.
+			if [ "$rc" -ne 1 ]; then
+				bad "$file" "valgrind rc=$rc: $(printf '%s\n' "$out" | grep -E 'lost:|ERROR SUMMARY|signal' | head -4)"
 			else
 				ok "$file (no leaks)"
 			fi
